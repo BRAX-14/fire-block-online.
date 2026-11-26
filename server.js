@@ -74,7 +74,7 @@ wss.on('connection', ws => {
       let room;
       if (m.type === 'create') {
         const code = roomCode();
-        room = { code, hostId: null, players: new Map(), started: false, mapSeed: 1 };
+        room = { code, hostId: null, players: new Map(), started: false, mapSeed: 1, mapId: 0 };
         rooms.set(code, room);
       } else {
         const code = String(m.room || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);
@@ -89,7 +89,7 @@ wss.on('connection', ws => {
       clients.set(ws, p);
       send(ws, { type: 'joined', id, room: room.code, host: room.hostId === id, players: [...room.players.values()].filter(q => q.id !== id).map(publicPlayer), started: room.started });
       broadcast(room, { type: 'playerJoined', player: publicPlayer(p) }, ws);
-      if (room.started) send(ws, { type: 'start', seed: room.mapSeed });
+      if (room.started) send(ws, { type: 'start', seed: room.mapSeed, map: room.mapId });
       return;
     }
 
@@ -117,7 +117,8 @@ wss.on('connection', ws => {
       if (room.hostId !== p.id) return send(ws, { type: 'error', message: 'Somente o anfitrião pode iniciar.' });
       room.started = true;
       room.mapSeed = (Number(m.seed) >>> 0) || 1;
-      broadcast(room, { type: 'start', seed: room.mapSeed });
+      room.mapId = Number(m.map) ? 1 : 0;
+      broadcast(room, { type: 'start', seed: room.mapSeed, map: room.mapId });
     }
   });
   ws.on('close', () => leave(ws));
@@ -127,4 +128,4 @@ wss.on('connection', ws => {
 server.listen(PORT, HOST, () => {
   console.log(`FIRE BLOCK Online rodando em http://localhost:${PORT}`);
 });
-  
+                                                        
