@@ -1,0 +1,21 @@
+FIRE BLOCK ONLINE - COMO EXECUTAR
+
+REQUISITOS
+- Node.js 18 ou superior instalado no computador.
+- Internet para instalar a dependência e para os jogadores se conectarem.
+
+INICIAR O SERVIDOR
+1. Extraia todos os arquivos desta pasta.
+2. Abra o terminal nesta pasta.
+3. Execute: npm install
+4. Execute: npm start
+5. No mesmo computador, abra http://localhost:3000
+
+JOGAR COM AMIGOS PELA INTERNET
+O servidor precisa ficar hospedado em um serviço que aceite Node.js e conexões WebSocket (por exemplo, um VPS ou plataforma de hospedagem Node).
+Depois de publicar a pasta, compartilhe o endereço HTTPS do jogo com seus amigos. Um jogador toca em MULTIPLAYER, cria uma sala e compartilha o código de 5 letras. Os demais digitam o código e entram. O anfitrião inicia a partida.
+
+IMPORTANTE SOBRE ESTA VERSÃO
+Esta primeira integração sincroniza salas, entrada/saída e posição/direção dos personagens em tempo real. O combate, dano, eliminações, loot, zona e estado da partida ainda são simulados separadamente em cada navegador; portanto, ainda não é um battle royale competitivo totalmente sincronizado. Para isso, a próxima etapa é implementar autoridade do servidor para tiros, vida, itens, mapa e fim de partida.
+
+Não abra o HTML com duplo clique para usar o online. Abra pelo endereço do servidor.
